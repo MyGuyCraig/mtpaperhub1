@@ -287,7 +287,7 @@ const HomePage: React.FC = () => {
                   <p className="text-gray-600 text-sm">A Level Student</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             <motion.div
               className="bg-gray-50 p-6 rounded-xl shadow-sm"
