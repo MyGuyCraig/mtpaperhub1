@@ -159,15 +159,7 @@ const IGCSEPage: React.FC = () => {
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">{subject.name}</h3>
                 <p className="text-sm text-gray-500 mb-4">Code: {subject.code}</p>
                 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center text-yellow-400">
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
-                    <span className="text-gray-600 text-sm ml-2">5.0</span>
-                  </div>
+                <div className="flex justify-end">
                   <button
                     onClick={() => handleSubjectClick(subject)}
                     className="text-green-600 hover:text-green-700 font-medium text-sm flex items-center"
