@@ -347,7 +347,7 @@ const HomePage: React.FC = () => {
                   <p className="text-gray-600 text-sm">IGCSE Student</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             <div className="text-center">
               <Link
