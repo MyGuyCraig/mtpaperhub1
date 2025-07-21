@@ -2,34 +2,73 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BookOpen, ArrowRight, Star, Mail, X } from 'lucide-react';
+import SubjectModal from '../components/SubjectModal';
+
+// Pricing data for O Level subjects
+const pricing: Record<string, Record<string, number>> = {
+  'english': { 'P1': 250, 'P2': 130 },
+  'english-lit': { 'P1': 255, 'P2': 130 },
+  'env-mgmt': { 'P1': 175, 'P2': 170 },
+  'food-nutrition': { 'P1': 290, 'P2': 290 },
+  'pak-studies': { 'P1': 90, 'P2': 250 },
+  'islamiyat': { 'P1': 315, 'P2': 290 },
+  'math-d': { 'P1': 240, 'P2': 275 },
+  'physics': { 'P1': 170, 'P2': 270, 'P4': 145 },
+  'sociology': { 'P1': 145, 'P2': 180 },
+  'global-persp': { 'P1': 90 },
+  'urdu-1': { 'P1': 80, 'P2': 80 },
+  'urdu-2': { 'P1': 175, 'P2': 175 },
+  'travel-tour': { 'P1': 105, 'P2': 120 },
+  'accounting': { 'P1': 120, 'P2': 330 },
+  'add-math': { 'P1': 255, 'P2': 250 },
+  'biology': { 'P1': 180, 'P2': 240, 'P4': 125 },
+  'business': { 'P1': 290, 'P2': 290 },
+  'chemistry': { 'P1': 160, 'P2': 255, 'P4': 190 },
+  'comb-sci': { 'P1': 180, 'P2': 320 },
+  'commerce': { 'P1': 120, 'P2': 305 },
+  'comp-sci': { 'P1': 180, 'P2': 225 },
+  'economics': { 'P1': 110, 'P2': 250 }
+};
 
 const OLevelPage: React.FC = () => {
   const [showFloatingTile, setShowFloatingTile] = React.useState(true);
+  const [selectedSubject, setSelectedSubject] = React.useState<any>(null);
+  const [showModal, setShowModal] = React.useState(false);
 
   const subjects = [
-    { id: 'urdu-1', name: 'Urdu – First Language', code: '3247', startingPrice: 80 },
-    { id: 'urdu-2', name: 'Urdu – Second Language', code: '3248', startingPrice: 80 },
-    { id: 'english', name: 'English Language', code: '1123', startingPrice: 130 },
-    { id: 'english-lit', name: 'Literature in English', code: '2010', startingPrice: 130 },
-    { id: 'biology', name: 'Biology', code: '5090', startingPrice: 125 },
-    { id: 'chemistry', name: 'Chemistry', code: '5070', startingPrice: 160 },
-    { id: 'physics', name: 'Physics', code: '5054', startingPrice: 145 },
-    { id: 'math-d', name: 'Mathematics D', code: '4024', startingPrice: 240 },
-    { id: 'add-math', name: 'Additional Mathematics', code: '4037', startingPrice: 250 },
-    { id: 'comb-sci', name: 'Combined Science', code: '5129', startingPrice: 180 },
-    { id: 'pak-studies', name: 'Pakistan Studies', code: '2059', startingPrice: 90 },
-    { id: 'islamiyat', name: 'Islamiyat', code: '2058', startingPrice: 290 },
-    { id: 'business', name: 'Business Studies', code: '7115', startingPrice: 290 },
-    { id: 'economics', name: 'Economics', code: '2281', startingPrice: 110 },
-    { id: 'commerce', name: 'Commerce', code: '7100', startingPrice: 120 },
-    { id: 'sociology', name: 'Sociology', code: '2251', startingPrice: 145 },
-    { id: 'comp-sci', name: 'Computer Science', code: '2210', startingPrice: 180 },
-    { id: 'global-persp', name: 'Global Perspectives', code: '2069', startingPrice: 90 },
-    { id: 'env-mgmt', name: 'Environmental Management', code: '5014', startingPrice: 170 },
-    { id: 'food-nutrition', name: 'Food & Nutrition', code: '6065', startingPrice: 290 },
-    { id: 'travel-tour', name: 'Travel & Tourism', code: '7096', startingPrice: 105 },
-    { id: 'accounting', name: 'Accounting', code: '7707', startingPrice: 120 }
+    { id: 'urdu-1', name: 'Urdu – First Language', code: '3247', startingPrice: 80, papers: ['P1', 'P2'] },
+    { id: 'urdu-2', name: 'Urdu – Second Language', code: '3248', startingPrice: 80, papers: ['P1', 'P2'] },
+    { id: 'english', name: 'English Language', code: '1123', startingPrice: 130, papers: ['P1', 'P2'] },
+    { id: 'english-lit', name: 'Literature in English', code: '2010', startingPrice: 130, papers: ['P1', 'P2'] },
+    { id: 'biology', name: 'Biology', code: '5090', startingPrice: 125, papers: ['P1', 'P2', 'P4'] },
+    { id: 'chemistry', name: 'Chemistry', code: '5070', startingPrice: 160, papers: ['P1', 'P2', 'P4'] },
+    { id: 'physics', name: 'Physics', code: '5054', startingPrice: 145, papers: ['P1', 'P2', 'P4'] },
+    { id: 'math-d', name: 'Mathematics D', code: '4024', startingPrice: 240, papers: ['P1', 'P2'] },
+    { id: 'add-math', name: 'Additional Mathematics', code: '4037', startingPrice: 250, papers: ['P1', 'P2'] },
+    { id: 'comb-sci', name: 'Combined Science', code: '5129', startingPrice: 180, papers: ['P1', 'P2', 'P3'] },
+    { id: 'pak-studies', name: 'Pakistan Studies', code: '2059', startingPrice: 90, papers: ['P1', 'P2'] },
+    { id: 'islamiyat', name: 'Islamiyat', code: '2058', startingPrice: 290, papers: ['P1', 'P2'] },
+    { id: 'business', name: 'Business Studies', code: '7115', startingPrice: 290, papers: ['P1', 'P2'] },
+    { id: 'economics', name: 'Economics', code: '2281', startingPrice: 110, papers: ['P1', 'P2'] },
+    { id: 'commerce', name: 'Commerce', code: '7100', startingPrice: 120, papers: ['P1', 'P2'] },
+    { id: 'sociology', name: 'Sociology', code: '2251', startingPrice: 145, papers: ['P1', 'P2'] },
+    { id: 'comp-sci', name: 'Computer Science', code: '2210', startingPrice: 180, papers: ['P1', 'P2'] },
+    { id: 'global-persp', name: 'Global Perspectives', code: '2069', startingPrice: 90, papers: ['P1'] },
+    { id: 'env-mgmt', name: 'Environmental Management', code: '5014', startingPrice: 170, papers: ['P1', 'P2'] },
+    { id: 'food-nutrition', name: 'Food & Nutrition', code: '6065', startingPrice: 290, papers: ['P1', 'P2'] },
+    { id: 'travel-tour', name: 'Travel & Tourism', code: '7096', startingPrice: 105, papers: ['P1', 'P2'] },
+    { id: 'accounting', name: 'Accounting', code: '7707', startingPrice: 120, papers: ['P1', 'P2'] }
   ];
+
+  const handleSubjectClick = (subject: any) => {
+    setSelectedSubject(subject);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedSubject(null);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -135,13 +174,13 @@ const OLevelPage: React.FC = () => {
                     <Star className="h-4 w-4 fill-current" />
                     <span className="text-gray-600 text-sm ml-2">5.0</span>
                   </div>
-                  <Link
-                    to="/build-your-own"
+                  <button
+                    onClick={() => handleSubjectClick(subject)}
                     className="text-red-600 hover:text-red-700 font-medium text-sm flex items-center"
                   >
                     Select
                     <ArrowRight className="h-4 w-4 ml-1" />
-                  </Link>
+                  </button>
                 </div>
               </motion.div>
             ))}
@@ -195,6 +234,17 @@ const OLevelPage: React.FC = () => {
           </Link>
         </div>
       </section>
+
+      {/* Subject Modal */}
+      {selectedSubject && (
+        <SubjectModal
+          isOpen={showModal}
+          onClose={handleCloseModal}
+          subject={selectedSubject}
+          level="o-level"
+          pricing={pricing[selectedSubject.id] || {}}
+        />
+      )}
     </div>
   );
 };

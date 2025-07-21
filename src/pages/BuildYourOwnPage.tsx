@@ -26,7 +26,7 @@ import Confetti from 'react-confetti';
 // Define types
 type Level = 'o-level' | 'a-level' | 'igcse';
 type Paper = 'P1' | 'P2' | 'P3' | 'P4' | 'P5' | 'P6' | 'S1' | 'M1';
-type Binding = 'ring' | 'tape';
+type Binding = 'none' | 'tape' | 'ring';
 
 interface Subject {
   id: string;
@@ -199,10 +199,10 @@ const BuildYourOwnPage: React.FC = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showFloatingTile, setShowFloatingTile] = useState(true);
   const [formState, setFormState] = useState<FormState>({
-    level: 'o-level',
+    level: 'o-level', 
     subjects: [],
     papers: {},
-    binding: 'tape',
+    binding: 'none',
     bindingOption: 'together',
     notes: '',
     customSubject: '',
@@ -241,7 +241,7 @@ const BuildYourOwnPage: React.FC = () => {
     if (isPaperSelected) {
       updatedSubjectPapers = currentPapers.filter(p => p.paper !== paper);
     } else {
-      const defaultYear = new Date().getFullYear();
+      const defaultYear = 2024;
       const newPaper: PaperYearRange = {
         paper,
         yearRange: { start: defaultYear - 5, end: defaultYear },
@@ -262,7 +262,13 @@ const BuildYourOwnPage: React.FC = () => {
 
     const updatedPapers = [...currentPapers];
     const currentYear = updatedPapers[paperIndex].yearRange[field];
-    updatedPapers[paperIndex].yearRange[field] = currentYear + change;
+    const newYear = currentYear + change;
+    
+    // Limit years to 2024
+    if (newYear > 2024) return;
+    if (newYear < 2010) return;
+    
+    updatedPapers[paperIndex].yearRange[field] = newYear;
 
     // Basic validation to prevent end year from being before start year
     if (field === 'start' && updatedPapers[paperIndex].yearRange.start > updatedPapers[paperIndex].yearRange.end) {
@@ -291,6 +297,8 @@ const BuildYourOwnPage: React.FC = () => {
 
     if (formState.binding === 'ring') {
       basePrice += 200;
+    } else if (formState.binding === 'tape') {
+      basePrice += 50;
     }
     return basePrice;
   }, [formState]);
@@ -555,26 +563,19 @@ const BuildYourOwnPage: React.FC = () => {
                 <div>
                   <h3 className="font-semibold text-slate-700 mb-3">Binding Option</h3>
                   <div className="flex gap-3">
+                    <button onClick={() => setFormState({...formState, binding: 'none'})} className={`flex-1 p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'none' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
+                      <p className="font-semibold">No Binding</p>
+                      <p className="text-slate-500">Simple loose papers. (Free)</p>
+                    </button>
                     <button onClick={() => setFormState({...formState, binding: 'tape'})} className={`flex-1 p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'tape' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
                       <p className="font-semibold">Tape Binding</p>
-                      <p className="text-slate-500">Simple and cost-effective. (Free)</p>
+                      <p className="text-slate-500">Simple and cost-effective. (+PKR 50)</p>
                     </button>
                     <button onClick={() => setFormState({...formState, binding: 'ring'})} className={`flex-1 p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'ring' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
                       <p className="font-semibold">Ring Binding</p>
                       <p className="text-slate-500">Durable and lays flat. (+PKR 200)</p>
                     </button>
                   </div>
-                </div>
-                {/* Notes */}
-                <div>
-                  <h3 className="font-semibold text-slate-700 mb-3">Special Notes (Optional)</h3>
-                  <textarea
-                    className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                    rows={2}
-                    placeholder="e.g., 'Please use black & white printing only.'"
-                    value={formState.notes}
-                    onChange={(e) => setFormState({ ...formState, notes: e.target.value })}
-                  />
                 </div>
               </div>
             </div>

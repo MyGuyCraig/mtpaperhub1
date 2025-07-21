@@ -2,28 +2,61 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BookOpen, ArrowRight, Star, Mail, X } from 'lucide-react';
+import SubjectModal from '../components/SubjectModal';
+
+// Pricing data for A Level subjects
+const pricing: Record<string, Record<string, number>> = {
+  'math-al': { 'P1': 525, 'P3': 525, 'S1': 365, 'M1': 410 },
+  'physics-al': { 'P1': 290, 'P2': 340, 'P3': 175, 'P4': 370, 'P5': 155 },
+  'psychology-al': { 'P1': 320, 'P2': 395, 'P3': 400, 'P4': 340 },
+  'sociology-al': { 'P1': 205, 'P2': 210, 'P3': 175 },
+  'thinking-skills-al': { 'P1': 285, 'P2': 180, 'P3': 125, 'P4': 175 },
+  'urdu-al': { 'P2': 210, 'P3': 210, 'P4': 210 },
+  'comp-sci-al': { 'P2': 330, 'P3': 160, 'P4': 355 },
+  'economics-al': { 'P1': 190, 'P2': 220, 'P3': 180, 'P4': 190 },
+  'eng-lang-al': { 'P1': 225, 'P2': 110, 'P3': 160, 'P4': 110 },
+  'env-mgmt-al': { 'P1': 320, 'P2': 290 },
+  'further-math-al': { 'P2': 335 },
+  'history-al': { 'P1': 260, 'P2': 355, 'P3': 125, 'P4': 305 },
+  'law-al': { 'P1': 140, 'P2': 170, 'P3': 130, 'P4': 125 },
+  'chemistry-al': { 'P1': 190, 'P2': 220, 'P4': 180 },
+  'biology-al': { 'P1': 180, 'P2': 240, 'P4': 190 },
+  'business-al': { 'P1': 290, 'P2': 290 }
+};
 
 const ALevelPage: React.FC = () => {
   const [showFloatingTile, setShowFloatingTile] = React.useState(true);
+  const [selectedSubject, setSelectedSubject] = React.useState<any>(null);
+  const [showModal, setShowModal] = React.useState(false);
 
   const subjects = [
-    { id: 'math-al', name: 'Mathematics', code: '9709', startingPrice: 365 },
-    { id: 'further-math-al', name: 'Further Mathematics', code: '9231', startingPrice: 335 },
-    { id: 'physics-al', name: 'Physics', code: '9702', startingPrice: 155 },
-    { id: 'chemistry-al', name: 'Chemistry', code: '9701', startingPrice: 190 },
-    { id: 'biology-al', name: 'Biology', code: '9700', startingPrice: 180 },
-    { id: 'economics-al', name: 'Economics', code: '9708', startingPrice: 180 },
-    { id: 'business-al', name: 'Business', code: '9609', startingPrice: 290 },
-    { id: 'sociology-al', name: 'Sociology', code: '9699', startingPrice: 175 },
-    { id: 'psychology-al', name: 'Psychology', code: '9990', startingPrice: 320 },
-    { id: 'comp-sci-al', name: 'Computer Science', code: '9618', startingPrice: 160 },
-    { id: 'eng-lang-al', name: 'English Language', code: '9093', startingPrice: 110 },
-    { id: 'env-mgmt-al', name: 'Environmental Management', code: '8291', startingPrice: 290 },
-    { id: 'history-al', name: 'History', code: '9389', startingPrice: 125 },
-    { id: 'law-al', name: 'Law', code: '9084', startingPrice: 125 },
-    { id: 'thinking-skills-al', name: 'Thinking Skills', code: '9694', startingPrice: 125 },
-    { id: 'urdu-al', name: 'Urdu', code: '9676', startingPrice: 210 }
+    { id: 'math-al', name: 'Mathematics', code: '9709', startingPrice: 365, papers: ['P1', 'P3', 'S1', 'M1'] },
+    { id: 'further-math-al', name: 'Further Mathematics', code: '9231', startingPrice: 335, papers: ['P2'] },
+    { id: 'physics-al', name: 'Physics', code: '9702', startingPrice: 155, papers: ['P1', 'P2', 'P3', 'P4', 'P5'] },
+    { id: 'chemistry-al', name: 'Chemistry', code: '9701', startingPrice: 190, papers: ['P1', 'P2', 'P4'] },
+    { id: 'biology-al', name: 'Biology', code: '9700', startingPrice: 180, papers: ['P1', 'P2', 'P4'] },
+    { id: 'economics-al', name: 'Economics', code: '9708', startingPrice: 180, papers: ['P1', 'P2', 'P3', 'P4'] },
+    { id: 'business-al', name: 'Business', code: '9609', startingPrice: 290, papers: ['P1', 'P2'] },
+    { id: 'sociology-al', name: 'Sociology', code: '9699', startingPrice: 175, papers: ['P1', 'P2', 'P3'] },
+    { id: 'psychology-al', name: 'Psychology', code: '9990', startingPrice: 320, papers: ['P1', 'P2', 'P3', 'P4'] },
+    { id: 'comp-sci-al', name: 'Computer Science', code: '9618', startingPrice: 160, papers: ['P2', 'P3', 'P4'] },
+    { id: 'eng-lang-al', name: 'English Language', code: '9093', startingPrice: 110, papers: ['P1', 'P2', 'P3', 'P4'] },
+    { id: 'env-mgmt-al', name: 'Environmental Management', code: '8291', startingPrice: 290, papers: ['P1', 'P2'] },
+    { id: 'history-al', name: 'History', code: '9389', startingPrice: 125, papers: ['P1', 'P2', 'P3', 'P4'] },
+    { id: 'law-al', name: 'Law', code: '9084', startingPrice: 125, papers: ['P1', 'P2', 'P3', 'P4'] },
+    { id: 'thinking-skills-al', name: 'Thinking Skills', code: '9694', startingPrice: 125, papers: ['P1', 'P2', 'P3', 'P4'] },
+    { id: 'urdu-al', name: 'Urdu', code: '9676', startingPrice: 210, papers: ['P2', 'P3', 'P4'] }
   ];
+
+  const handleSubjectClick = (subject: any) => {
+    setSelectedSubject(subject);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedSubject(null);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -129,13 +162,13 @@ const ALevelPage: React.FC = () => {
                     <Star className="h-4 w-4 fill-current" />
                     <span className="text-gray-600 text-sm ml-2">5.0</span>
                   </div>
-                  <Link
-                    to="/build-your-own"
+                  <button
+                    onClick={() => handleSubjectClick(subject)}
                     className="text-blue-600 hover:text-blue-700 font-medium text-sm flex items-center"
                   >
                     Select
                     <ArrowRight className="h-4 w-4 ml-1" />
-                  </Link>
+                  </button>
                 </div>
               </motion.div>
             ))}
@@ -189,6 +222,17 @@ const ALevelPage: React.FC = () => {
           </Link>
         </div>
       </section>
+
+      {/* Subject Modal */}
+      {selectedSubject && (
+        <SubjectModal
+          isOpen={showModal}
+          onClose={handleCloseModal}
+          subject={selectedSubject}
+          level="a-level"
+          pricing={pricing[selectedSubject.id] || {}}
+        />
+      )}
     </div>
   );
 };

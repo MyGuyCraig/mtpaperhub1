@@ -99,8 +99,8 @@ const HomePage: React.FC = () => {
                     <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
                 </Link>
-                <Link to="/about" className="px-8 py-3 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors flex items-center justify-center">
-                  <span>Learn More</span>
+                <Link to="/custom-requests" className="px-8 py-3 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors flex items-center justify-center">
+                  <span>Custom Orders</span>
                 </Link>
               </div>
 
@@ -110,7 +110,7 @@ const HomePage: React.FC = () => {
                   <div className="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs">FH</div>
                   <div className="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center text-white text-xs">ZK</div>
                 </div>
-                <span className="text-sm text-gray-600">Trusted by <span className="font-semibold">10,000+</span> students</span>
+                <span className="text-sm text-gray-600">Trusted by students across Pakistan</span>
               </div>
             </motion.div>
 
@@ -278,56 +278,6 @@ const HomePage: React.FC = () => {
         <div className="absolute bottom-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
       </section>
 
-      {/* Stats Section */}
-      <section
-        className="bg-gray-50 py-16 px-6 md:px-12 lg:px-20"
-        ref={statsRef}
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={statsInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <div className="text-4xl font-bold text-indigo-600 mb-2">10,000+</div>
-              <p className="text-gray-600">Students</p>
-            </motion.div>
-
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={statsInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <div className="text-4xl font-bold text-indigo-600 mb-2">500+</div>
-              <p className="text-gray-600">Resources</p>
-            </motion.div>
-
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={statsInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <div className="text-4xl font-bold text-indigo-600 mb-2">30+</div>
-              <p className="text-gray-600">Subjects</p>
-            </motion.div>
-
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={statsInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <div className="text-4xl font-bold text-indigo-600 mb-2">98%</div>
-              <p className="text-gray-600">Satisfaction</p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
       {/* Testimonials */}
       <section
         className="py-16 px-6 md:px-12 lg:px-20 bg-white"
@@ -352,9 +302,9 @@ const HomePage: React.FC = () => {
                   <Star className="h-5 w-5 fill-current" />
                   <Star className="h-5 w-5 fill-current" />
                   <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current opacity-50" />
                 </div>
-                <span className="text-gray-600 text-sm">5.0</span>
+                <span className="text-gray-600 text-sm">4.2</span>
               </div>
               <p className="text-gray-700 mb-6">
                 "The O Level Mathematics resources were exactly what I needed. The practice papers helped me understand the exam format and improved my problem-solving skills."
@@ -384,7 +334,7 @@ const HomePage: React.FC = () => {
                   <Star className="h-5 w-5 fill-current" />
                   <Star className="h-5 w-5 fill-current" />
                 </div>
-                <span className="text-gray-600 text-sm">5.0</span>
+                <span className="text-gray-600 text-sm">4.8</span>
               </div>
               <p className="text-gray-700 mb-6">
                 "Building my own custom package for A Level Chemistry and Physics was incredibly helpful. I could focus on exactly the topics I struggled with."
@@ -412,9 +362,9 @@ const HomePage: React.FC = () => {
                   <Star className="h-5 w-5 fill-current" />
                   <Star className="h-5 w-5 fill-current" />
                   <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current opacity-30" />
                 </div>
-                <span className="text-gray-600 text-sm">5.0</span>
+                <span className="text-gray-600 text-sm">4.5</span>
               </div>
               <p className="text-gray-700 mb-6">
                 "The quality of the IGCSE resources is outstanding. I particularly appreciated the detailed solutions that helped me understand complex concepts."
@@ -425,6 +375,96 @@ const HomePage: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-medium text-gray-800">Zain Khalil</h4>
+                  <p className="text-gray-600 text-sm">IGCSE Student</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="bg-gray-50 p-6 rounded-xl shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <div className="flex items-center mb-4">
+                <div className="flex text-yellow-400 mr-2">
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current opacity-70" />
+                </div>
+                <span className="text-gray-600 text-sm">4.6</span>
+              </div>
+              <p className="text-gray-700 mb-6">
+                "Great collection of past papers for Business Studies. The marking schemes really helped me understand what examiners are looking for."
+              </p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center text-white font-medium mr-3">
+                  SA
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-800">Sara Ahmed</h4>
+                  <p className="text-gray-600 text-sm">O Level Student</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="bg-gray-50 p-6 rounded-xl shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              <div className="flex items-center mb-4">
+                <div className="flex text-yellow-400 mr-2">
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current opacity-40" />
+                </div>
+                <span className="text-gray-600 text-sm">4.3</span>
+              </div>
+              <p className="text-gray-700 mb-6">
+                "The Physics papers were comprehensive and well organized. Delivery was quick and the binding quality is good."
+              </p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white font-medium mr-3">
+                  MH
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-800">Muhammad Hassan</h4>
+                  <p className="text-gray-600 text-sm">A Level Student</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="bg-gray-50 p-6 rounded-xl shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <div className="flex items-center mb-4">
+                <div className="flex text-yellow-400 mr-2">
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current opacity-80" />
+                </div>
+                <span className="text-gray-600 text-sm">4.7</span>
+              </div>
+              <p className="text-gray-700 mb-6">
+                "Excellent service for IGCSE Mathematics. The papers covered all the topics I needed and helped me prepare thoroughly for my exams."
+              </p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center text-white font-medium mr-3">
+                  AY
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-800">Ayesha Yousaf</h4>
                   <p className="text-gray-600 text-sm">IGCSE Student</p>
                 </div>
               </div>
@@ -492,10 +532,10 @@ const HomePage: React.FC = () => {
               <span>Build Your Package</span>
             </Link>
             <Link
-              to="/about"
+              to="/custom-requests"
               className="px-8 py-3 rounded-lg border border-white text-white font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center"
             >
-              <span>Learn More</span>
+              <span>Custom Orders</span>
             </Link>
           </div>
         </div>

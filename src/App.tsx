@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
 import BuildYourOwnPage from './pages/BuildYourOwnPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
@@ -19,7 +18,6 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
-        <Route path="about" element={<AboutPage />} />
         <Route path="o-level" element={<OLevelPage />} />
         <Route path="a-level" element={<ALevelPage />} />
         <Route path="igcse" element={<IGCSEPage />} />

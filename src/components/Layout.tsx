@@ -42,8 +42,7 @@ const Layout: React.FC = () => {
               <Link to="/o-level" className="text-gray-600 hover:text-indigo-600 transition-colors">O Level</Link>
               <Link to="/a-level" className="text-gray-600 hover:text-indigo-600 transition-colors">A Level</Link>
               <Link to="/igcse" className="text-gray-600 hover:text-indigo-600 transition-colors">IGCSE</Link>
-              <Link to="/build-your-own" className="text-gray-600 hover:text-indigo-600 transition-colors">Build Your Own</Link>
-              <Link to="/about" className="text-gray-600 hover:text-indigo-600 transition-colors">About</Link>
+              <Link to="/custom-requests" className="text-gray-600 hover:text-indigo-600 transition-colors bg-purple-100 px-3 py-1 rounded-full">Custom Orders</Link>
             </div>
             
             <div className="flex items-center space-x-4">
@@ -77,8 +76,7 @@ const Layout: React.FC = () => {
                 <Link to="/o-level" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">O Level</Link>
                 <Link to="/a-level" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">A Level</Link>
                 <Link to="/igcse" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">IGCSE</Link>
-                <Link to="/build-your-own" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">Build Your Own</Link>
-                <Link to="/about" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">About</Link>
+                <Link to="/custom-requests" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">Custom Orders</Link>
               </div>
             </div>
           )}

@@ -2,31 +2,67 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BookOpen, ArrowRight, Star, Mail, X } from 'lucide-react';
+import SubjectModal from '../components/SubjectModal';
+
+// Pricing data for IGCSE subjects
+const pricing: Record<string, Record<string, number>> = {
+  'global-persp': { 'P1': 385 },
+  'ict': { 'P1': 365 },
+  'islamiyat': { 'P1': 320, 'P2': 300 },
+  'math': { 'P1': 260, 'P4': 435 },
+  'pak-studies': { 'P1': 60, 'P2': 125 },
+  'physics': { 'P2': 270, 'P4': 285, 'P6': 255 },
+  'sociology': { 'P1': 355, 'P2': 480 },
+  'urdu-2': { 'P1': 100, 'P2': 100 },
+  'accounting': { 'P1': 190, 'P2': 380 },
+  'add-math': { 'P1': 365, 'P2': 350 },
+  'biology': { 'P2': 240, 'P4': 445, 'P5': 250 },
+  'business': { 'P1': 435, 'P2': 321 },
+  'chemistry': { 'P1': 260, 'P2': 395, 'P4': 320, 'P6': 210 },
+  'comp-sci': { 'P1': 290, 'P2': 365 },
+  'economics': { 'P1': 160, 'P2': 395 },
+  'eng-lang': { 'P1': 530, 'P2': 315 },
+  'eng-2nd-lang': { 'P2': 330, 'P4': 145 },
+  'env-mgmt': { 'P1': 435, 'P2': 450 },
+  'geography': { 'P1': 200, 'P2': 250 }
+};
 
 const IGCSEPage: React.FC = () => {
   const [showFloatingTile, setShowFloatingTile] = React.useState(true);
+  const [selectedSubject, setSelectedSubject] = React.useState<any>(null);
+  const [showModal, setShowModal] = React.useState(false);
 
   const subjects = [
-    { id: 'global-persp', name: 'Global Perspectives', code: '0457', startingPrice: 385 },
-    { id: 'ict', name: 'Information and Communication Technology (ICT)', code: '0417', startingPrice: 365 },
-    { id: 'islamiyat', name: 'Islamiyat', code: '0493', startingPrice: 300 },
-    { id: 'math', name: 'Mathematics (Core and Extended)', code: '0580', startingPrice: 260 },
-    { id: 'pak-studies', name: 'Pakistan Studies', code: '0448', startingPrice: 60 },
-    { id: 'physics', name: 'Physics', code: '0625', startingPrice: 255 },
-    { id: 'sociology', name: 'Sociology', code: '0495', startingPrice: 355 },
-    { id: 'urdu-2', name: 'Urdu as a Second Language', code: '0539', startingPrice: 100 },
-    { id: 'accounting', name: 'Accounting', code: '0452', startingPrice: 190 },
-    { id: 'add-math', name: 'Additional Mathematics', code: '0606', startingPrice: 350 },
-    { id: 'biology', name: 'Biology', code: '0610', startingPrice: 240 },
-    { id: 'business', name: 'Business Studies', code: '0450', startingPrice: 321 },
-    { id: 'chemistry', name: 'Chemistry', code: '0620', startingPrice: 210 },
-    { id: 'comp-sci', name: 'Computer Science', code: '0478', startingPrice: 290 },
-    { id: 'economics', name: 'Economics', code: '0455', startingPrice: 160 },
-    { id: 'eng-lang', name: 'English Language (First Language)', code: '0500', startingPrice: 315 },
-    { id: 'eng-2nd-lang', name: 'English as a Second Language', code: '0510', startingPrice: 145 },
-    { id: 'env-mgmt', name: 'Environmental Management', code: '0680', startingPrice: 435 },
-    { id: 'geography', name: 'Geography', code: '0460', startingPrice: 200 }
+    { id: 'global-persp', name: 'Global Perspectives', code: '0457', startingPrice: 385, papers: ['P1'] },
+    { id: 'ict', name: 'Information and Communication Technology (ICT)', code: '0417', startingPrice: 365, papers: ['P1', 'P2', 'P3'] },
+    { id: 'islamiyat', name: 'Islamiyat', code: '0493', startingPrice: 300, papers: ['P1', 'P2'] },
+    { id: 'math', name: 'Mathematics (Core and Extended)', code: '0580', startingPrice: 260, papers: ['P1', 'P2', 'P3', 'P4'] },
+    { id: 'pak-studies', name: 'Pakistan Studies', code: '0448', startingPrice: 60, papers: ['P1', 'P2'] },
+    { id: 'physics', name: 'Physics', code: '0625', startingPrice: 255, papers: ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'] },
+    { id: 'sociology', name: 'Sociology', code: '0495', startingPrice: 355, papers: ['P1', 'P2'] },
+    { id: 'urdu-2', name: 'Urdu as a Second Language', code: '0539', startingPrice: 100, papers: ['P1', 'P2'] },
+    { id: 'accounting', name: 'Accounting', code: '0452', startingPrice: 190, papers: ['P1', 'P2'] },
+    { id: 'add-math', name: 'Additional Mathematics', code: '0606', startingPrice: 350, papers: ['P1', 'P2'] },
+    { id: 'biology', name: 'Biology', code: '0610', startingPrice: 240, papers: ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'] },
+    { id: 'business', name: 'Business Studies', code: '0450', startingPrice: 321, papers: ['P1', 'P2'] },
+    { id: 'chemistry', name: 'Chemistry', code: '0620', startingPrice: 210, papers: ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'] },
+    { id: 'comp-sci', name: 'Computer Science', code: '0478', startingPrice: 290, papers: ['P1', 'P2'] },
+    { id: 'economics', name: 'Economics', code: '0455', startingPrice: 160, papers: ['P1', 'P2'] },
+    { id: 'eng-lang', name: 'English Language (First Language)', code: '0500', startingPrice: 315, papers: ['P1', 'P2'] },
+    { id: 'eng-2nd-lang', name: 'English as a Second Language', code: '0510', startingPrice: 145, papers: ['P2', 'P4'] },
+    { id: 'env-mgmt', name: 'Environmental Management', code: '0680', startingPrice: 435, papers: ['P1', 'P2'] },
+    { id: 'geography', name: 'Geography', code: '0460', startingPrice: 200, papers: ['P1', 'P2'] }
   ];
+
+  const handleSubjectClick = (subject: any) => {
+    setSelectedSubject(subject);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedSubject(null);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -132,13 +168,13 @@ const IGCSEPage: React.FC = () => {
                     <Star className="h-4 w-4 fill-current" />
                     <span className="text-gray-600 text-sm ml-2">5.0</span>
                   </div>
-                  <Link
-                    to="/build-your-own"
+                  <button
+                    onClick={() => handleSubjectClick(subject)}
                     className="text-green-600 hover:text-green-700 font-medium text-sm flex items-center"
                   >
                     Select
                     <ArrowRight className="h-4 w-4 ml-1" />
-                  </Link>
+                  </button>
                 </div>
               </motion.div>
             ))}
@@ -192,6 +228,17 @@ const IGCSEPage: React.FC = () => {
           </Link>
         </div>
       </section>
+
+      {/* Subject Modal */}
+      {selectedSubject && (
+        <SubjectModal
+          isOpen={showModal}
+          onClose={handleCloseModal}
+          subject={selectedSubject}
+          level="igcse"
+          pricing={pricing[selectedSubject.id] || {}}
+        />
+      )}
     </div>
   );
 };
