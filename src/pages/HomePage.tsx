@@ -259,96 +259,6 @@ const HomePage: React.FC = () => {
               </div>
             </div>
 
-            <motion.div
-              className="bg-gray-50 p-6 rounded-xl shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.7 }}
-            >
-              <div className="flex items-center mb-4">
-                <div className="flex text-yellow-400 mr-2">
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                </div>
-                <span className="text-gray-600 text-sm">5.0</span>
-              </div>
-              <p className="text-gray-700 mb-6">
-                "Outstanding quality materials for A Level Chemistry. The marking schemes were incredibly detailed and helped me understand exactly what examiners expect."
-              </p>
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-medium mr-3">
-                  RK
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-800">Rania Khan</h4>
-                  <p className="text-gray-600 text-sm">A Level Student</p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="bg-gray-50 p-6 rounded-xl shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              <div className="flex items-center mb-4">
-                <div className="flex text-yellow-400 mr-2">
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                </div>
-                <span className="text-gray-600 text-sm">5.0</span>
-              </div>
-              <p className="text-gray-700 mb-6">
-                "Perfect for O Level English Literature preparation. The variety of past papers and comprehensive marking schemes made all the difference in my results."
-              </p>
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-cyan-500 flex items-center justify-center text-white font-medium mr-3">
-                  UM
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-800">Usman Malik</h4>
-                  <p className="text-gray-600 text-sm">O Level Student</p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="bg-gray-50 p-6 rounded-xl shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.9 }}
-            >
-              <div className="flex items-center mb-4">
-                <div className="flex text-yellow-400 mr-2">
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current" />
-                </div>
-                <span className="text-gray-600 text-sm">5.0</span>
-              </div>
-              <p className="text-gray-700 mb-6">
-                "Exceptional service and quality. The IGCSE Business Studies materials were exactly what I needed. Fast delivery and professional binding too!"
-              </p>
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white font-medium mr-3">
-                  LF
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-800">Laiba Fatima</h4>
-                  <p className="text-gray-600 text-sm">IGCSE Student</p>
-                </div>
-              </div>
-            </motion.div>
-
             <div className="text-center">
               <Link
                 to="/build-your-own"
@@ -379,7 +289,7 @@ const HomePage: React.FC = () => {
             <p className="text-gray-600 max-w-2xl mx-auto">Hear from students who have achieved academic success with our resources.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <motion.div
               className="bg-gray-50 p-6 rounded-xl shadow-sm"
               initial={{ opacity: 0, y: 20 }}
@@ -469,12 +379,106 @@ const HomePage: React.FC = () => {
                 </div>
               </div>
             </motion.div>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <motion.div
               className="bg-gray-50 p-6 rounded-xl shadow-sm"
               initial={{ opacity: 0, y: 20 }}
               animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <div className="flex items-center mb-4">
+                <div className="flex text-yellow-400 mr-2">
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                </div>
+                <span className="text-gray-600 text-sm">5.0</span>
+              </div>
+              <p className="text-gray-700 mb-6">
+                "Outstanding quality materials for A Level Chemistry. The marking schemes were incredibly detailed and helped me understand exactly what examiners expect."
+              </p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-medium mr-3">
+                  RK
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-800">Rania Khan</h4>
+                  <p className="text-gray-600 text-sm">A Level Student</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="bg-gray-50 p-6 rounded-xl shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <div className="flex items-center mb-4">
+                <div className="flex text-yellow-400 mr-2">
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                </div>
+                <span className="text-gray-600 text-sm">5.0</span>
+              </div>
+              <p className="text-gray-700 mb-6">
+                "Perfect for O Level English Literature preparation. The variety of past papers and comprehensive marking schemes made all the difference in my results."
+              </p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-cyan-500 flex items-center justify-center text-white font-medium mr-3">
+                  UM
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-800">Usman Malik</h4>
+                  <p className="text-gray-600 text-sm">O Level Student</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="bg-gray-50 p-6 rounded-xl shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <div className="flex items-center mb-4">
+                <div className="flex text-yellow-400 mr-2">
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                  <Star className="h-5 w-5 fill-current" />
+                </div>
+                <span className="text-gray-600 text-sm">5.0</span>
+              </div>
+              <p className="text-gray-700 mb-6">
+                "Exceptional service and quality. The IGCSE Business Studies materials were exactly what I needed. Fast delivery and professional binding too!"
+              </p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white font-medium mr-3">
+                  LF
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-800">Laiba Fatima</h4>
+                  <p className="text-gray-600 text-sm">IGCSE Student</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+            <motion.div
+              className="bg-gray-50 p-6 rounded-xl shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.7 }}
             >
               <div className="flex items-center mb-4">
                 <div className="flex text-yellow-400 mr-2">
@@ -504,7 +508,7 @@ const HomePage: React.FC = () => {
               className="bg-gray-50 p-6 rounded-xl shadow-sm"
               initial={{ opacity: 0, y: 20 }}
               animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
             >
               <div className="flex items-center mb-4">
                 <div className="flex text-yellow-400 mr-2">
@@ -534,7 +538,7 @@ const HomePage: React.FC = () => {
               className="bg-gray-50 p-6 rounded-xl shadow-sm"
               initial={{ opacity: 0, y: 20 }}
               animate={testimonialInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
             >
               <div className="flex items-center mb-4">
                 <div className="flex text-yellow-400 mr-2">
@@ -542,20 +546,20 @@ const HomePage: React.FC = () => {
                   <Star className="h-5 w-5 fill-current" />
                   <Star className="h-5 w-5 fill-current" />
                   <Star className="h-5 w-5 fill-current" />
-                  <Star className="h-5 w-5 fill-current opacity-80" />
+                  <Star className="h-5 w-5 fill-current" />
                 </div>
-                <span className="text-gray-600 text-sm">4.7</span>
+                <span className="text-gray-600 text-sm">5.0</span>
               </div>
               <p className="text-gray-700 mb-6">
-                "Excellent service for IGCSE Mathematics. The papers covered all the topics I needed and helped me prepare thoroughly for my exams."
+                "Amazing collection of A Level Physics materials. The quality is top-notch and helped me achieve the grades I needed for university admission."
               </p>
               <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center text-white font-medium mr-3">
-                  AY
+                <div className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-medium mr-3">
+                  AS
                 </div>
                 <div>
-                  <h4 className="font-medium text-gray-800">Ayesha Yousaf</h4>
-                  <p className="text-gray-600 text-sm">IGCSE Student</p>
+                  <h4 className="font-medium text-gray-800">Ali Shah</h4>
+                  <p className="text-gray-600 text-sm">A Level Student</p>
                 </div>
               </div>
             </motion.div>
