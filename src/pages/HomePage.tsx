@@ -10,17 +10,11 @@ import {
   Users,
   Star,
   TrendingUp,
-  CreditCard,
   Mail,
   X
 } from 'lucide-react';
 
 const HomePage: React.FC = () => {
-  const [statsRef, statsInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
   const [testimonialRef, testimonialInView] = useInView({
     triggerOnce: true,
     threshold: 0.1,

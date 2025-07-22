@@ -3,19 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
   BookOpen, 
-  ChevronRight, 
-  Check, 
-  AlertCircle,
-  BookOpenCheck,
-  CalendarCheck,
-  BookmarkPlus,
-  MessageSquare,
   Plus,
   Minus,
-  ChevronLeft,
   ShoppingCart,
   Mail,
-  HelpCircle,
   X
 } from 'lucide-react';
 import { useCartStore } from '../stores/cartStore';
