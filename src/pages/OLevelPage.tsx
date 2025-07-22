@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, ArrowRight, Star, Mail, X } from 'lucide-react';
+import { BookOpen, ArrowRight, Mail, X } from 'lucide-react';
 import SubjectModal from '../components/SubjectModal';
 
 // Pricing data for O Level subjects
