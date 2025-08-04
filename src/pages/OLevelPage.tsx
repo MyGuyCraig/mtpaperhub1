@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, ArrowRight, Mail, X } from 'lucide-react';
+import { BookOpen, ArrowRight, Mail, X, Filter, TrendingUp, DollarSign, AlphabeticalSort } from 'lucide-react';
 import SubjectModal from '../components/SubjectModal';
 
 // Pricing data for O Level subjects
@@ -34,8 +34,10 @@ const OLevelPage: React.FC = () => {
   const [showFloatingTile, setShowFloatingTile] = React.useState(true);
   const [selectedSubject, setSelectedSubject] = React.useState<any>(null);
   const [showModal, setShowModal] = React.useState(false);
+  const [sortBy, setSortBy] = React.useState<'alphabetical' | 'price-low' | 'price-high' | 'popular' | 'trending'>('alphabetical');
+  const [filterByPrice, setFilterByPrice] = React.useState<'all' | 'under-200' | '200-400' | 'over-400'>('all');
 
-  const subjects = [
+  const allSubjects = [
     { id: 'urdu-1', name: 'Urdu – First Language', code: '3247', startingPrice: 80, papers: ['P1', 'P2'] },
     { id: 'urdu-2', name: 'Urdu – Second Language', code: '3248', startingPrice: 80, papers: ['P1', 'P2'] },
     { id: 'english', name: 'English Language', code: '1123', startingPrice: 130, papers: ['P1', 'P2'] },
@@ -60,6 +62,48 @@ const OLevelPage: React.FC = () => {
     { id: 'accounting', name: 'Accounting', code: '7707', startingPrice: 120, papers: ['P1', 'P2'] }
   ];
 
+  // Filter and sort subjects
+  const subjects = React.useMemo(() => {
+    let filtered = [...allSubjects];
+    
+    // Apply price filter
+    if (filterByPrice !== 'all') {
+      filtered = filtered.filter(subject => {
+        if (filterByPrice === 'under-200') return subject.startingPrice < 200;
+        if (filterByPrice === '200-400') return subject.startingPrice >= 200 && subject.startingPrice <= 400;
+        if (filterByPrice === 'over-400') return subject.startingPrice > 400;
+        return true;
+      });
+    }
+    
+    // Apply sorting
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'alphabetical':
+          return a.name.localeCompare(b.name);
+        case 'price-low':
+          return a.startingPrice - b.startingPrice;
+        case 'price-high':
+          return b.startingPrice - a.startingPrice;
+        case 'popular':
+          // Mock popularity based on subject type (languages and sciences more popular)
+          const popularSubjects = ['english', 'urdu-1', 'math-d', 'physics', 'chemistry', 'biology'];
+          const aPopular = popularSubjects.includes(a.id) ? 1 : 0;
+          const bPopular = popularSubjects.includes(b.id) ? 1 : 0;
+          return bPopular - aPopular || a.name.localeCompare(b.name);
+        case 'trending':
+          // Mock trending based on modern subjects
+          const trendingSubjects = ['comp-sci', 'business', 'economics', 'global-persp'];
+          const aTrending = trendingSubjects.includes(a.id) ? 1 : 0;
+          const bTrending = trendingSubjects.includes(b.id) ? 1 : 0;
+          return bTrending - aTrending || a.name.localeCompare(b.name);
+        default:
+          return 0;
+      }
+    });
+    
+    return filtered;
+  }, [sortBy, filterByPrice]);
   const handleSubjectClick = (subject: any) => {
     setSelectedSubject(subject);
     setShowModal(true);
@@ -143,6 +187,48 @@ const OLevelPage: React.FC = () => {
             </p>
           </div>
 
+          {/* Filters */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <div className="flex items-center mb-4">
+              <Filter className="h-5 w-5 text-red-600 mr-2" />
+              <h3 className="text-lg font-medium text-gray-800">Filter & Sort</h3>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as any)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                >
+                  <option value="alphabetical">Alphabetical Order</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="popular">Most Popular</option>
+                  <option value="trending">Trending</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Price</label>
+                <select
+                  value={filterByPrice}
+                  onChange={(e) => setFilterByPrice(e.target.value as any)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                >
+                  <option value="all">All Prices</option>
+                  <option value="under-200">Under PKR 200</option>
+                  <option value="200-400">PKR 200 - 400</option>
+                  <option value="over-400">Over PKR 400</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="mt-4 text-sm text-gray-600">
+              Showing {subjects.length} of {allSubjects.length} subjects
+            </div>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {subjects.map((subject, index) => (
               <motion.div
