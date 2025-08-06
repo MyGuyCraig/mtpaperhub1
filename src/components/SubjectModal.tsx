@@ -97,10 +97,10 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
       basePrice += paperPrice * (yearCount > 0 ? yearCount : 0);
     });
 
-    if (binding === 'ring') {
-      basePrice += 200;
-    } else if (binding === 'tape') {
-      basePrice += 50;
+    // Calculate binding charges based on number of selected papers
+    const bindingCharges = selectedPapers.length * (binding === 'ring' ? 200 : binding === 'tape' ? 50 : 0);
+    basePrice += bindingCharges;
+
     }
     return basePrice;
   }, [selectedPapers, binding, pricing]);
@@ -272,7 +272,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
                     ${binding === 'tape' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 hover:border-gray-300'}`}
                 >
                   <p className="font-semibold text-gray-800">Tape Binding</p>
-                  <p className="text-sm text-gray-500">Simple and cost-effective (+PKR 50)</p>
+                  <p className="text-sm text-gray-500">Simple and cost-effective (+PKR 50 per paper)</p>
                 </button>
                 <button 
                   onClick={() => setBinding('ring')} 
@@ -280,7 +280,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
                     ${binding === 'ring' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 hover:border-gray-300'}`}
                 >
                   <p className="font-semibold text-gray-800">Ring Binding</p>
-                  <p className="text-sm text-gray-500">Durable and lays flat (+PKR 200)</p>
+                  <p className="text-sm text-gray-500">Durable and lays flat (+PKR 200 per paper)</p>
                 </button>
               </div>
             </div>
@@ -308,7 +308,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
               {selectedPapers.length > 0 && (
                 <div className="text-sm text-gray-600">
                   <p className="mb-1">Selected: {selectedPapers.length} paper(s)</p>
-                  <p>Binding: {binding === 'ring' ? 'Ring Binding (+PKR 200)' : binding === 'tape' ? 'Tape Binding (+PKR 50)' : 'No Binding (Free)'}</p>
+                  <p>Binding: {binding === 'ring' ? `Ring Binding (+PKR ${selectedPapers.length * 200})` : binding === 'tape' ? `Tape Binding (+PKR ${selectedPapers.length * 50})` : 'No Binding (Free)'}</p>
                 </div>
               )}
             </div>

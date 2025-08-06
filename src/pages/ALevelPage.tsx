@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, ArrowRight, Mail, X } from 'lucide-react';
+import { BookOpen, ArrowRight, Mail, X, Filter, ChevronDown } from 'lucide-react';
 import SubjectModal from '../components/SubjectModal';
 
 // Pricing data for A Level subjects
@@ -30,6 +30,8 @@ const ALevelPage: React.FC = () => {
   const [showFloatingTile, setShowFloatingTile] = React.useState(true);
   const [selectedSubject, setSelectedSubject] = React.useState<any>(null);
   const [showModal, setShowModal] = React.useState(false);
+  const [sortBy, setSortBy] = React.useState<string>('name');
+  const [filterBy, setFilterBy] = React.useState<string>('all');
 
   const subjects = [
     { id: 'accounting-al', name: 'Accounting', code: '9706', startingPrice: 170, papers: ['P1', 'P2', 'P3'] },
@@ -62,6 +64,41 @@ const ALevelPage: React.FC = () => {
     setSelectedSubject(null);
   };
 
+  // Filter and sort subjects
+  const filteredAndSortedSubjects = React.useMemo(() => {
+    let filtered = subjects;
+    
+    // Apply filters
+    if (filterBy !== 'all') {
+      if (filterBy === 'science') {
+        filtered = subjects.filter(s => ['biology-al', 'chemistry-al', 'physics-al', 'env-mgmt-al'].includes(s.id));
+      } else if (filterBy === 'languages') {
+        filtered = subjects.filter(s => ['eng-lang-al', 'eng-lit-al', 'urdu-al'].includes(s.id));
+      } else if (filterBy === 'business') {
+        filtered = subjects.filter(s => ['business-al', 'economics-al', 'accounting-al', 'law-al'].includes(s.id));
+      } else if (filterBy === 'mathematics') {
+        filtered = subjects.filter(s => ['math-al', 'further-math-al'].includes(s.id));
+      } else if (filterBy === 'social') {
+        filtered = subjects.filter(s => ['history-al', 'psychology-al', 'sociology-al', 'thinking-skills-al'].includes(s.id));
+      }
+    }
+    
+    // Apply sorting
+    return filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'price-low':
+          return a.startingPrice - b.startingPrice;
+        case 'price-high':
+          return b.startingPrice - a.startingPrice;
+        case 'code':
+          return a.code.localeCompare(b.code);
+        default:
+          return 0;
+      }
+    });
+  }, [sortBy, filterBy]);
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Floating Custom Requests Tile */}
@@ -135,8 +172,40 @@ const ALevelPage: React.FC = () => {
             </p>
           </div>
 
+          {/* Filters */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-8 justify-center">
+            <div className="relative">
+              <select
+                value={filterBy}
+                onChange={(e) => setFilterBy(e.target.value)}
+                className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="all">All Subjects</option>
+                <option value="science">Science Subjects</option>
+                <option value="languages">Languages</option>
+                <option value="business">Business & Law</option>
+                <option value="mathematics">Mathematics</option>
+                <option value="social">Social Studies</option>
+              </select>
+              <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            </div>
+            
+            <div className="relative">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="name">Sort by Name</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="code">Sort by Code</option>
+              </select>
+              <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+            </div>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {subjects.map((subject, index) => (
+            {filteredAndSortedSubjects.map((subject, index) => (
               <motion.div
                 key={subject.id}
                 initial={{ opacity: 0, y: 20 }}
