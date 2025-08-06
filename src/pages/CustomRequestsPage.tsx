@@ -168,7 +168,7 @@ const CustomRequestsPage: React.FC = () => {
               </div>
               <h3 className="text-2xl font-bold text-gray-800 mb-4">Per Page Pricing</h3>
               <p className="text-gray-600 mb-6">
-                Send us your files and we'll provide you with a detailed quote based on the number of pages, paper quality, and binding requirements. The total price of your order will be relayed to you through email.
+                Send us your files and we'll provide you with a detailed quote based on the number of pages, paper quality, and binding requirements.
               </p>
               <div className="bg-white rounded-lg p-6 shadow-sm">
                 <p className="text-lg font-medium text-gray-800 mb-2">
