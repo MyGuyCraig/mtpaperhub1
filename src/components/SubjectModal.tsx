@@ -97,10 +97,12 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
       basePrice += paperPrice * (yearCount > 0 ? yearCount : 0);
     });
 
+    // Calculate binding charges based on number of selected papers
+    const bindingMultiplier = selectedPapers.length;
     if (binding === 'ring') {
-      basePrice += 200;
+      basePrice += 200 * bindingMultiplier;
     } else if (binding === 'tape') {
-      basePrice += 50;
+      basePrice += 50 * bindingMultiplier;
     }
     return basePrice;
   }, [selectedPapers, binding, pricing]);
@@ -308,7 +310,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
               {selectedPapers.length > 0 && (
                 <div className="text-sm text-gray-600">
                   <p className="mb-1">Selected: {selectedPapers.length} paper(s)</p>
-                  <p>Binding: {binding === 'ring' ? 'Ring Binding (+PKR 200)' : binding === 'tape' ? 'Tape Binding (+PKR 50)' : 'No Binding (Free)'}</p>
+                  <p>Binding: {binding === 'ring' ? `Ring Binding (+PKR ${200 * selectedPapers.length})` : binding === 'tape' ? `Tape Binding (+PKR ${50 * selectedPapers.length})` : 'No Binding (Free)'}</p>
                 </div>
               )}
             </div>

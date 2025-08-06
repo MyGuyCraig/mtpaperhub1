@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, ArrowRight, Mail, X } from 'lucide-react';
+import { BookOpen, ArrowRight, Mail, X, Filter } from 'lucide-react';
 import SubjectModal from '../components/SubjectModal';
 
 // Pricing data for IGCSE subjects
@@ -31,6 +31,8 @@ const IGCSEPage: React.FC = () => {
   const [showFloatingTile, setShowFloatingTile] = React.useState(true);
   const [selectedSubject, setSelectedSubject] = React.useState<any>(null);
   const [showModal, setShowModal] = React.useState(false);
+  const [sortBy, setSortBy] = React.useState<string>('name');
+  const [filterBy, setFilterBy] = React.useState<string>('all');
 
   const subjects = [
     { id: 'global-persp', name: 'Global Perspectives', code: '0457', startingPrice: 385, papers: ['P1'] },
@@ -64,6 +66,37 @@ const IGCSEPage: React.FC = () => {
     setSelectedSubject(null);
   };
 
+  // Filter and sort subjects
+  const filteredAndSortedSubjects = React.useMemo(() => {
+    let filtered = [...subjects];
+    
+    // Filter by subject type
+    if (filterBy !== 'all') {
+      if (filterBy === 'sciences') {
+        filtered = filtered.filter(s => ['biology', 'chemistry', 'physics'].includes(s.id));
+      } else if (filterBy === 'languages') {
+        filtered = filtered.filter(s => ['eng-lang', 'eng-2nd-lang', 'urdu-2'].includes(s.id));
+      } else if (filterBy === 'business') {
+        filtered = filtered.filter(s => ['business', 'economics', 'accounting'].includes(s.id));
+      } else if (filterBy === 'mathematics') {
+        filtered = filtered.filter(s => ['math', 'add-math'].includes(s.id));
+      }
+    }
+    
+    // Sort subjects
+    filtered.sort((a, b) => {
+      if (sortBy === 'name') {
+        return a.name.localeCompare(b.name);
+      } else if (sortBy === 'price-low') {
+        return a.startingPrice - b.startingPrice;
+      } else if (sortBy === 'price-high') {
+        return b.startingPrice - a.startingPrice;
+      }
+      return 0;
+    });
+    
+    return filtered;
+  }, [sortBy, filterBy]);
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Floating Custom Requests Tile */}
@@ -137,8 +170,43 @@ const IGCSEPage: React.FC = () => {
             </p>
           </div>
 
+          {/* Filters */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <div className="flex items-center mb-4">
+              <Filter className="h-5 w-5 text-gray-600 mr-2" />
+              <h3 className="text-lg font-medium text-gray-800">Filter & Sort</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Subject Type</label>
+                <select
+                  value={filterBy}
+                  onChange={(e) => setFilterBy(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                >
+                  <option value="all">All Subjects</option>
+                  <option value="sciences">Sciences</option>
+                  <option value="languages">Languages</option>
+                  <option value="business">Business & Commerce</option>
+                  <option value="mathematics">Mathematics</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Sort by</label>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                >
+                  <option value="name">Subject Name (A-Z)</option>
+                  <option value="price-low">Price (Low to High)</option>
+                  <option value="price-high">Price (High to Low)</option>
+                </select>
+              </div>
+            </div>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {subjects.map((subject, index) => (
+            {filteredAndSortedSubjects.map((subject, index) => (
               <motion.div
                 key={subject.id}
                 initial={{ opacity: 0, y: 20 }}
