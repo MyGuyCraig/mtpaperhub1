@@ -539,13 +539,18 @@ const CheckoutPage: React.FC = () => {
                       <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
                         City *
                       </label>
-                      <input
-                        type="text"
+                      <select
                         id="city"
                         {...register('city', { required: 'City is required' })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="Enter your city name"
-                      />
+                      >
+                        <option value="">Select City</option>
+                        {pakistaniCities.map(city => (
+                          <option key={city.name} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </select>
                       {errors.city && (
                         <p className="mt-1 text-sm text-red-600">{errors.city.message}</p>
                       )}

@@ -281,25 +281,20 @@ const BuildYourOwnPage: React.FC = () => {
 
   const calculatePrice = useMemo(() => {
     let basePrice = 0;
-    let totalBooks = 0;
-    
     formState.subjects.forEach(subjectId => {
       const papers = formState.papers[subjectId] || [];
       papers.forEach(paperInfo => {
         const yearCount = paperInfo.yearRange.end - paperInfo.yearRange.start + 1;
         const paperPrice = pricing[formState.level]?.[subjectId]?.[paperInfo.paper] ?? 0;
         basePrice += paperPrice * (yearCount > 0 ? yearCount : 0);
-        totalBooks += 1; // Each paper is a separate book
       });
     });
 
-    // Add binding charges per book
     if (formState.binding === 'ring') {
-      basePrice += 200 * totalBooks;
+      basePrice += 200;
     } else if (formState.binding === 'tape') {
-      basePrice += 50 * totalBooks;
+      basePrice += 50;
     }
-    
     return basePrice;
   }, [formState]);
 
@@ -558,43 +553,28 @@ const BuildYourOwnPage: React.FC = () => {
             {/* 3. Binding & Notes */}
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
               <h2 className="text-xl font-semibold text-slate-800 mb-6">Step 3: Final Touches</h2>
-              {/* Binding */}
-              <div>
-                <h3 className="font-semibold text-slate-700 mb-3">Binding Option</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <button onClick={() => setFormState({...formState, binding: 'none'})} className={`p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'none' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
-                    <p className="font-semibold">No Binding</p>
-                    <p className="text-slate-500">Simple loose papers (Free)</p>
-                  </button>
-                  <button onClick={() => setFormState({...formState, binding: 'tape'})} className={`p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'tape' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
-                    <p className="font-semibold">Tape Binding</p>
-                    <p className="text-slate-500">Simple and cost-effective (+PKR 50 per book)</p>
-                  </button>
-                  <button onClick={() => setFormState({...formState, binding: 'ring'})} className={`p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'ring' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
-                    <p className="font-semibold">Ring Binding</p>
-                    <p className="text-slate-500">Durable and lays flat (+PKR 200 per book)</p>
-                  </button>
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Binding */}
+                <div>
+                  <h3 className="font-semibold text-slate-700 mb-3">Binding Option</h3>
+                  <div className="flex gap-3">
+                    <button onClick={() => setFormState({...formState, binding: 'none'})} className={`flex-1 p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'none' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
+                      <p className="font-semibold">No Binding</p>
+                      <p className="text-slate-500">Simple loose papers. (Free)</p>
+                    </button>
+                    <button onClick={() => setFormState({...formState, binding: 'tape'})} className={`flex-1 p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'tape' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
+                      <p className="font-semibold">Tape Binding</p>
+                      <p className="text-slate-500">Simple and cost-effective. (+PKR 50)</p>
+                    </button>
+                    <button onClick={() => setFormState({...formState, binding: 'ring'})} className={`flex-1 p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'ring' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
+                      <p className="font-semibold">Ring Binding</p>
+                      <p className="text-slate-500">Durable and lays flat. (+PKR 200)</p>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* 4. Special Notes */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-              <h2 className="text-xl font-semibold text-slate-800 mb-6">Special Notes</h2>
-              <div>
-                <label htmlFor="notes" className="block text-sm font-medium text-slate-700 mb-2">
-                  Additional Instructions or Custom Requests
-                </label>
-                <textarea
-                  id="notes"
-                  value={formState.notes}
-                  onChange={(e) => setFormState({...formState, notes: e.target.value})}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  rows={4}
-                  placeholder="Any special instructions, custom subjects, or additional requirements..."
-                />
-              </div>
-            </div>
           </div>
 
           {/* --- RIGHT COLUMN: SUMMARY --- */}
@@ -610,33 +590,8 @@ const BuildYourOwnPage: React.FC = () => {
                     </div>
                      <div className="flex justify-between">
                       <span className="text-slate-500">Binding</span>
-                      <span className="font-medium text-slate-700 capitalize">
-                        {formState.binding === 'none' ? 'No Binding' : 
-                         formState.binding === 'tape' ? 'Tape Binding' : 'Ring Binding'}
-                      </span>
+                      <span className="font-medium text-slate-700 capitalize">{formState.binding}</span>
                     </div>
-                    {formState.binding !== 'none' && (
-                      <div className="flex justify-between">
-                        <span className="text-slate-500">Total Books</span>
-                        <span className="font-medium text-slate-700">
-                          {formState.subjects.reduce((total, sid) => {
-                            const papers = formState.papers[sid] || [];
-                            return total + papers.length;
-                          }, 0)}
-                        </span>
-                      </div>
-                    )}
-                    {formState.binding !== 'none' && (
-                      <div className="flex justify-between">
-                        <span className="text-slate-500">Binding Cost</span>
-                        <span className="font-medium text-slate-700">
-                          PKR {(formState.binding === 'ring' ? 200 : 50) * formState.subjects.reduce((total, sid) => {
-                            const papers = formState.papers[sid] || [];
-                            return total + papers.length;
-                          }, 0)}
-                        </span>
-                    </div>
-                    )}
                   </div>
                   
                   <hr className="my-4"/>
