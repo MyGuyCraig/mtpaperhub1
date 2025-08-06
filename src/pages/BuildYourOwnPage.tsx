@@ -7,7 +7,8 @@ import {
   Minus,
   ShoppingCart,
   Mail,
-  X
+  X,
+  HelpCircle
 } from 'lucide-react';
 import { useCartStore } from '../stores/cartStore';
 import toast from 'react-hot-toast';
