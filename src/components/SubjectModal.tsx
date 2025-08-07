@@ -17,6 +17,7 @@ interface Subject {
 
 interface PaperYearRange {
   paper: Paper;
+  session: 'may-jun' | 'oct-nov';
   yearRange: {
     start: number;
     end: number;
@@ -58,6 +59,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
     } else {
       const newPaper: PaperYearRange = {
         paper,
+        session: 'may-jun',
         yearRange: { start: 2019, end: 2024 },
       };
       setSelectedPapers([...selectedPapers, newPaper]);
@@ -86,6 +88,15 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
         updatedPapers[paperIndex].yearRange.start = updatedPapers[paperIndex].yearRange.end;
     }
 
+    setSelectedPapers(updatedPapers);
+  };
+
+  const handleUpdatePaperSession = (paper: Paper, session: 'may-jun' | 'oct-nov') => {
+    const paperIndex = selectedPapers.findIndex(p => p.paper === paper);
+    if (paperIndex === -1) return;
+
+    const updatedPapers = [...selectedPapers];
+    updatedPapers[paperIndex].session = session;
     setSelectedPapers(updatedPapers);
   };
 
@@ -127,6 +138,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
           code: subject.code,
           papers: selectedPapers.map(p => ({
             paper: p.paper,
+            session: p.session,
             yearRange: `${p.yearRange.start}-${p.yearRange.end}`,
           })),
         }],
@@ -202,12 +214,44 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
                 >
                   <h3 className="text-lg font-semibold text-gray-800 mb-4">Select Year Ranges</h3>
                   <div className="space-y-4">
-                    {selectedPapers.map(({ paper, yearRange }) => (
+                    {selectedPapers.map(({ paper, session, yearRange }) => (
                       <div key={paper} className="p-4 bg-gray-50 rounded-lg">
-                        <div className="flex items-center justify-between flex-wrap gap-4">
+                        <div className="flex items-center justify-between mb-4">
                           <p className="font-medium text-gray-700">
-                            Year Range for <span className={`font-semibold text-${activeColor}-600`}>{paper}</span>:
+                            <span className={`font-semibold text-${activeColor}-600`}>{paper}</span> Configuration:
                           </p>
+                        </div>
+                        
+                        {/* Session Selection */}
+                        <div className="mb-4">
+                          <p className="text-sm text-gray-600 mb-2">Session:</p>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleUpdatePaperSession(paper, 'may-jun')}
+                              className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                                session === 'may-jun'
+                                  ? `bg-${activeColor}-500 text-white`
+                                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                              }`}
+                            >
+                              May/Jun
+                            </button>
+                            <button
+                              onClick={() => handleUpdatePaperSession(paper, 'oct-nov')}
+                              className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                                session === 'oct-nov'
+                                  ? `bg-${activeColor}-500 text-white`
+                                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                              }`}
+                            >
+                              Oct/Nov
+                            </button>
+                          </div>
+                        </div>
+                        
+                        {/* Year Range */}
+                        <div className="flex items-center justify-between flex-wrap gap-4">
+                          <p className="text-sm text-gray-600">Year Range:</p>
                           <div className="flex items-center gap-4">
                             {/* Start Year */}
                             <div className="flex items-center gap-2">
@@ -248,6 +292,13 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
                               </button>
                             </div>
                           </div>
+                        </div>
+                        
+                        {/* Price Calculation Display */}
+                        <div className="mt-3 p-2 bg-white rounded border">
+                          <p className="text-sm text-gray-600">
+                            <strong>Price Calculation:</strong> {pricing[paper] || 0} PKR × {yearRange.end - yearRange.start + 1} years = <span className="font-semibold text-green-600">{(pricing[paper] || 0) * (yearRange.end - yearRange.start + 1)} PKR</span>
+                          </p>
                         </div>
                       </div>
                     ))}

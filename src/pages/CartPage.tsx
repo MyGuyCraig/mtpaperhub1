@@ -21,8 +21,7 @@ const CartPage: React.FC = () => {
   
   // Calculate totals (removed tax calculation)
   const subtotal = totalPrice();
-  const shipping = subtotal > 0 ? 150 : 0; // Rs. 150 shipping
-  const total = subtotal + shipping;
+  const total = subtotal; // No automatic shipping charges
   
   // Handle quantity updates
   const handleIncreaseQuantity = (id: string) => {
@@ -209,15 +208,10 @@ const CartPage: React.FC = () => {
                     <span className="text-gray-800 font-medium">Rs. {subtotal}</span>
                   </div>
                   
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Shipping</span>
-                    <span className="text-gray-800 font-medium">Rs. {shipping}</span>
-                  </div>
-                  
                   <div className="pt-4 border-t border-gray-200">
                     <div className="flex justify-between">
                       <span className="text-gray-800 font-medium">Total</span>
-                      <span className="text-indigo-600 font-bold">Rs. {Math.round(total)}</span>
+                      <span className="text-indigo-600 font-bold">Rs. {total}</span>
                     </div>
                   </div>
                   

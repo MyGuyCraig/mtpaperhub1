@@ -12,12 +12,20 @@ import OLevelPage from './pages/OLevelPage';
 import ALevelPage from './pages/ALevelPage';
 import IGCSEPage from './pages/IGCSEPage';
 import CustomRequestsPage from './pages/CustomRequestsPage';
+import OLevelNotesPage from './pages/notes/OLevelNotesPage';
+import ASLevelNotesPage from './pages/notes/ASLevelNotesPage';
+import ALevelNotesPage from './pages/notes/ALevelNotesPage';
+import IGCSENotesPage from './pages/notes/IGCSENotesPage';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
+        <Route path="notes/o-level" element={<OLevelNotesPage />} />
+        <Route path="notes/as-level" element={<ASLevelNotesPage />} />
+        <Route path="notes/a-level" element={<ALevelNotesPage />} />
+        <Route path="notes/igcse" element={<IGCSENotesPage />} />
         <Route path="o-level" element={<OLevelPage />} />
         <Route path="a-level" element={<ALevelPage />} />
         <Route path="igcse" element={<IGCSEPage />} />

@@ -39,6 +39,22 @@ const Layout: React.FC = () => {
             
             <div className="hidden md:flex items-center space-x-8">
               <Link to="/" className="text-gray-600 hover:text-indigo-600 transition-colors">Home</Link>
+              <div className="relative group">
+                <button className="text-gray-600 hover:text-indigo-600 transition-colors flex items-center">
+                  Notes
+                  <svg className="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-1">
+                    <Link to="/notes/o-level" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">O Level Notes</Link>
+                    <Link to="/notes/as-level" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">AS Level Notes</Link>
+                    <Link to="/notes/a-level" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">A Level Notes</Link>
+                    <Link to="/notes/igcse" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">IGCSE Notes</Link>
+                  </div>
+                </div>
+              </div>
               <Link to="/o-level" className="text-gray-600 hover:text-indigo-600 transition-colors">O Level</Link>
               <Link to="/a-level" className="text-gray-600 hover:text-indigo-600 transition-colors">A Level</Link>
               <Link to="/igcse" className="text-gray-600 hover:text-indigo-600 transition-colors">IGCSE</Link>
@@ -73,6 +89,13 @@ const Layout: React.FC = () => {
             <div className="md:hidden bg-white mt-4 rounded-lg shadow-lg p-4 absolute left-4 right-4 z-50">
               <div className="flex flex-col space-y-3">
                 <Link to="/" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">Home</Link>
+                <div className="border-l-2 border-gray-200 pl-4">
+                  <p className="text-sm font-medium text-gray-500 mb-2">Notes</p>
+                  <Link to="/notes/o-level" className="block text-gray-700 hover:text-indigo-600 transition-colors py-1 text-sm">O Level Notes</Link>
+                  <Link to="/notes/as-level" className="block text-gray-700 hover:text-indigo-600 transition-colors py-1 text-sm">AS Level Notes</Link>
+                  <Link to="/notes/a-level" className="block text-gray-700 hover:text-indigo-600 transition-colors py-1 text-sm">A Level Notes</Link>
+                  <Link to="/notes/igcse" className="block text-gray-700 hover:text-indigo-600 transition-colors py-1 text-sm">IGCSE Notes</Link>
+                </div>
                 <Link to="/o-level" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">O Level</Link>
                 <Link to="/a-level" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">A Level</Link>
                 <Link to="/igcse" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">IGCSE</Link>

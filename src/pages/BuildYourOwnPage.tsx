@@ -30,6 +30,7 @@ interface Subject {
 
 interface PaperYearRange {
   paper: Paper;
+  session: 'may-jun' | 'oct-nov';
   yearRange: {
     start: number;
     end: number;
@@ -241,6 +242,7 @@ const BuildYourOwnPage: React.FC = () => {
       const defaultYear = 2024;
       const newPaper: PaperYearRange = {
         paper,
+        session: 'may-jun',
         yearRange: { start: defaultYear - 5, end: defaultYear },
       };
       updatedSubjectPapers = [...currentPapers, newPaper];
@@ -274,6 +276,20 @@ const BuildYourOwnPage: React.FC = () => {
     if (field === 'end' && updatedPapers[paperIndex].yearRange.end < updatedPapers[paperIndex].yearRange.start) {
         updatedPapers[paperIndex].yearRange.start = updatedPapers[paperIndex].yearRange.end;
     }
+
+    setFormState({
+      ...formState,
+      papers: { ...formState.papers, [subjectId]: updatedPapers },
+    });
+  };
+
+  const handleUpdatePaperSession = (subjectId: string, paper: Paper, session: 'may-jun' | 'oct-nov') => {
+    const currentPapers = formState.papers[subjectId] || [];
+    const paperIndex = currentPapers.findIndex(p => p.paper === paper);
+    if (paperIndex === -1) return;
+
+    const updatedPapers = [...currentPapers];
+    updatedPapers[paperIndex].session = session;
 
     setFormState({
       ...formState,
@@ -524,10 +540,44 @@ const BuildYourOwnPage: React.FC = () => {
                           exit={{ opacity: 0, height: 0 }}
                           className="space-y-4 mt-5"
                         >
-                          {selectedPapers.map(({ paper, yearRange }) => (
+                          {selectedPapers.map(({ paper, session, yearRange }) => (
                             <div key={paper} className="p-4 bg-white rounded-lg border border-slate-200 flex items-center justify-between flex-wrap gap-4">
-                              <p className="font-medium text-slate-700">Year Range for <span className={`font-semibold text-${activeColor}-600`}>{paper}</span>:</p>
-                              <div className="flex items-center gap-4">
+                              <div className="w-full">
+                                <p className="font-medium text-slate-700 mb-3">
+                                  Configuration for <span className={`font-semibold text-${activeColor}-600`}>{paper}</span>:
+                                </p>
+                                
+                                {/* Session Selection */}
+                                <div className="mb-3">
+                                  <p className="text-sm text-slate-600 mb-2">Session:</p>
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={() => handleUpdatePaperSession(subjectId, paper, 'may-jun')}
+                                      className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                                        session === 'may-jun'
+                                          ? `bg-${activeColor}-500 text-white`
+                                          : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                                      }`}
+                                    >
+                                      May/Jun
+                                    </button>
+                                    <button
+                                      onClick={() => handleUpdatePaperSession(subjectId, paper, 'oct-nov')}
+                                      className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                                        session === 'oct-nov'
+                                          ? `bg-${activeColor}-500 text-white`
+                                          : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                                      }`}
+                                    >
+                                      Oct/Nov
+                                    </button>
+                                  </div>
+                                </div>
+                                
+                                {/* Year Range */}
+                                <div className="flex items-center justify-between">
+                                  <p className="text-sm text-slate-600">Year Range:</p>
+                                  <div className="flex items-center gap-4">
                                 {/* Start Year */}
                                 <div className="flex items-center gap-2">
                                   <span className="text-sm text-slate-500">Start</span>
@@ -541,6 +591,15 @@ const BuildYourOwnPage: React.FC = () => {
                                   <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'end', -1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Minus className="w-4 h-4" /></button>
                                   <span className="font-mono font-semibold text-slate-800 w-10 text-center">{yearRange.end}</span>
                                   <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'end', 1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Plus className="w-4 h-4" /></button>
+                                </div>
+                                  </div>
+                                </div>
+                                
+                                {/* Price Calculation Display */}
+                                <div className="mt-3 p-2 bg-slate-50 rounded border">
+                                  <p className="text-sm text-slate-600">
+                                    <strong>Price:</strong> {pricing[formState.level]?.[subjectId]?.[paper] || 0} PKR × {yearRange.end - yearRange.start + 1} years = <span className="font-semibold text-green-600">{(pricing[formState.level]?.[subjectId]?.[paper] || 0) * (yearRange.end - yearRange.start + 1)} PKR</span>
+                                  </p>
                                 </div>
                               </div>
                             </div>

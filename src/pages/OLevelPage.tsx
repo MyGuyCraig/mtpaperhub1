@@ -36,6 +36,7 @@ const OLevelPage: React.FC = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [sortBy, setSortBy] = React.useState<string>('name');
   const [filterBy, setFilterBy] = React.useState<string>('all');
+  const [searchTerm, setSearchTerm] = React.useState<string>('');
 
   const subjects = [
     { id: 'urdu-1', name: 'Urdu – First Language', code: '3247', startingPrice: 80, papers: ['P1', 'P2'] },
@@ -76,6 +77,14 @@ const OLevelPage: React.FC = () => {
   const filteredAndSortedSubjects = React.useMemo(() => {
     let filtered = [...subjects];
     
+    // Filter by search term
+    if (searchTerm) {
+      filtered = filtered.filter(s => 
+        s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.code.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
     // Filter by subject type
     if (filterBy !== 'all') {
       if (filterBy === 'sciences') {
@@ -102,7 +111,6 @@ const OLevelPage: React.FC = () => {
     });
     
     return filtered;
-  }, [sortBy, filterBy]);
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Floating Custom Requests Tile */}
@@ -182,7 +190,17 @@ const OLevelPage: React.FC = () => {
               <Filter className="h-5 w-5 text-gray-600 mr-2" />
               <h3 className="text-lg font-medium text-gray-800">Filter & Sort</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Search Subjects</label>
+                <input
+                  type="text"
+                  placeholder="Search by name or code..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                />
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Subject Type</label>
                 <select
