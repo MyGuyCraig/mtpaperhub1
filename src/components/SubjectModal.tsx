@@ -59,7 +59,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
     } else {
       const newPaper: PaperYearRange = {
         paper,
-        sessions: ['may-jun'],
+        session: 'may-jun',
         yearRange: { start: 2019, end: 2024 },
       };
       setSelectedPapers([...selectedPapers, newPaper]);
@@ -110,7 +110,9 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
 
     // Calculate binding charges based on number of selected papers
     const bindingMultiplier = selectedPapers.length;
-    if (binding === 'tape') {
+    if (binding === 'ring') {
+      basePrice += 200 * bindingMultiplier;
+    } else if (binding === 'tape') {
       basePrice += 50 * bindingMultiplier;
     }
     return basePrice;

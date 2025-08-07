@@ -97,6 +97,8 @@ const Layout: React.FC = () => {
                   <Link to="/notes/igcse" className="block text-gray-700 hover:text-indigo-600 transition-colors py-1 text-sm">IGCSE Notes</Link>
                 </div>
                 <Link to="/o-level" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">O Level</Link>
+                <Link to="/a-level" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">A Level</Link>
+                <Link to="/igcse" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">IGCSE</Link>
                 <Link to="/custom-requests" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">Custom Orders</Link>
               </div>
             </div>
