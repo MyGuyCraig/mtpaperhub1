@@ -311,7 +311,9 @@ const BuildYourOwnPage: React.FC = () => {
     });
 
     // Calculate binding charges based on total number of papers
-    if (formState.binding === 'tape') {
+    if (formState.binding === 'ring') {
+      basePrice += 200 * totalPapers;
+    } else if (formState.binding === 'tape') {
       basePrice += 50 * totalPapers;
     }
     return basePrice;
@@ -679,7 +681,7 @@ const BuildYourOwnPage: React.FC = () => {
                           {papers.length > 0 ? (
                             <ul className="pl-4 text-slate-500 list-disc list-inside">
                               {papers.map(p => (
-                                <li key={p.paper}>{p.paper} ({p.session}): <span className="font-mono">{p.yearRange.start}-{p.yearRange.end}</span></li>
+                                <li key={p.paper}>{p.paper} ({p.sessions.join(' & ')}): <span className="font-mono">{p.yearRange.start}-{p.yearRange.end}</span></li>
                               ))}
                             </ul>
                           ) : (
