@@ -663,10 +663,6 @@ const BuildYourOwnPage: React.FC = () => {
                       <span className="text-slate-500">Level</span>
                       <span className={`font-semibold text-${activeColor}-600`}>{levelConfig[formState.level].name}</span>
                     </div>
-                     <div className="flex justify-between">
-                      <span className="text-slate-500">Binding</span>
-                      <span className="font-medium text-slate-700 capitalize">{formState.binding}</span>
-                    </div>
                   </div>
                   
                   <hr className="my-4"/>

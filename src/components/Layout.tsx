@@ -51,7 +51,6 @@ const Layout: React.FC = () => {
                     <Link to="/notes/o-level" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">O Level Notes</Link>
                     <Link to="/notes/as-level" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">AS Level Notes</Link>
                     <Link to="/notes/a-level" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">A Level Notes</Link>
-                    <Link to="/notes/igcse" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">IGCSE Notes</Link>
                   </div>
                 </div>
               </div>
@@ -94,7 +93,6 @@ const Layout: React.FC = () => {
                   <Link to="/notes/o-level" className="block text-gray-700 hover:text-indigo-600 transition-colors py-1 text-sm">O Level Notes</Link>
                   <Link to="/notes/as-level" className="block text-gray-700 hover:text-indigo-600 transition-colors py-1 text-sm">AS Level Notes</Link>
                   <Link to="/notes/a-level" className="block text-gray-700 hover:text-indigo-600 transition-colors py-1 text-sm">A Level Notes</Link>
-                  <Link to="/notes/igcse" className="block text-gray-700 hover:text-indigo-600 transition-colors py-1 text-sm">IGCSE Notes</Link>
                 </div>
                 <Link to="/o-level" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">O Level</Link>
                 <Link to="/a-level" className="text-gray-700 hover:text-indigo-600 transition-colors py-2">A Level</Link>
