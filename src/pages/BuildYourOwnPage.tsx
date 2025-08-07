@@ -311,9 +311,7 @@ const BuildYourOwnPage: React.FC = () => {
     });
 
     // Calculate binding charges based on total number of papers
-    if (formState.binding === 'ring') {
-      basePrice += 200 * totalPapers;
-    } else if (formState.binding === 'tape') {
+    if (formState.binding === 'tape') {
       basePrice += 50 * totalPapers;
     }
     return basePrice;
