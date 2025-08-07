@@ -588,19 +588,21 @@ const BuildYourOwnPage: React.FC = () => {
                                 <div className="flex items-center justify-between">
                                   <p className="text-sm text-slate-600">Year Range:</p>
                                   <div className="flex items-center gap-4">
-                                {/* Start Year */}
-                                <div className="flex items-center gap-2">
-                                  <span className="text-sm text-slate-500">Start</span>
-                                  <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'start', -1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Minus className="w-4 h-4" /></button>
-                                  <span className="font-mono font-semibold text-slate-800 w-10 text-center">{yearRange.start}</span>
-                                  <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'start', 1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Plus className="w-4 h-4" /></button>
-                                </div>
-                                {/* End Year */}
-                                <div className="flex items-center gap-2">
-                                  <span className="text-sm text-slate-500">End</span>
-                                  <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'end', -1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Minus className="w-4 h-4" /></button>
-                                  <span className="font-mono font-semibold text-slate-800 w-10 text-center">{yearRange.end}</span>
-                                  <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'end', 1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Plus className="w-4 h-4" /></button>
+                                    {/* Start Year */}
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-sm text-slate-500">Start</span>
+                                      <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'start', -1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Minus className="w-4 h-4" /></button>
+                                      <span className="font-mono font-semibold text-slate-800 w-10 text-center">{yearRange.start}</span>
+                                      <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'start', 1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Plus className="w-4 h-4" /></button>
+                                    </div>
+                                    {/* End Year */}
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-sm text-slate-500">End</span>
+                                      <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'end', -1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Minus className="w-4 h-4" /></button>
+                                      <span className="font-mono font-semibold text-slate-800 w-10 text-center">{yearRange.end}</span>
+                                      <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'end', 1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Plus className="w-4 h-4" /></button>
+                                    </div>
+                                  </div>
                                 </div>
                                 
                                 {/* Price Calculation Display */}
@@ -665,6 +667,10 @@ const BuildYourOwnPage: React.FC = () => {
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span className="text-slate-500">Level</span>
+                      <span className="font-medium text-slate-700 capitalize">{formState.level.replace('-', ' ')}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Binding</span>
                       <span className="font-medium text-slate-700 capitalize">{formState.binding === 'tape' ? 'Tape Binding' : 'No Binding'}</span>
                     </div>
                   </div>
@@ -681,14 +687,14 @@ const BuildYourOwnPage: React.FC = () => {
                           {papers.length > 0 ? (
                             <ul className="pl-4 text-slate-500 list-disc list-inside">
                               {papers.map(p => (
-                                <li key={p.paper}>{p.paper} ({p.session}): <span className="font-mono">{p.yearRange.start}-{p.yearRange.end}</span></li>
+                                <li key={p.paper}>{p.paper} ({p.sessions.join(', ')}): <span className="font-mono">{p.yearRange.start}-{p.yearRange.end}</span></li>
                               ))}
                             </ul>
                           ) : (
                             <p className="pl-4 text-xs text-slate-400">No papers selected</p>
                           )}
                         </div>
-                      )
+                      );
                     }) : (
                         <div className="text-center py-8">
                             <BookOpen className="mx-auto h-12 w-12 text-slate-300"/>
