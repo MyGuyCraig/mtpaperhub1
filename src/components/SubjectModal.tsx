@@ -361,7 +361,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
               {selectedPapers.length > 0 && (
                 <div className="text-sm text-gray-600">
                   <p className="mb-1">Selected: {selectedPapers.length} paper(s)</p>
-                  <p>Binding: {binding === 'ring' ? `Ring Binding (+PKR ${200 * selectedPapers.length})` : binding === 'tape' ? `Tape Binding (+PKR ${50 * selectedPapers.length})` : 'No Binding (Free)'}</p>
+                  <p>Binding: {binding === 'tape' ? `Tape Binding (+PKR ${50 * selectedPapers.length})` : 'No Binding (Free)'}</p>
                 </div>
               )}
             </div>

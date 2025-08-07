@@ -661,7 +661,7 @@ const BuildYourOwnPage: React.FC = () => {
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span className="text-slate-500">Level</span>
-                      <span className={`font-semibold text-${activeColor}-600`}>{levelConfig[formState.level].name}</span>
+                      <span className="font-medium text-slate-700 capitalize">{formState.binding === 'tape' ? 'Tape Binding' : 'No Binding'}</span>
                     </div>
                   </div>
                   

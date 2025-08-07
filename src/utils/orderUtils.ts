@@ -181,7 +181,7 @@ export const formatOrderItemDetails = (item: any): string => {
           if (typeof paperInfo === 'string') {
             return paperInfo;
           }
-          return `${paperInfo.paper} (${paperInfo.yearRange})`;
+          return `${paperInfo.paper} (${paperInfo.session}, ${paperInfo.yearRange})`;
         }).join(', ');
         details += `   Papers: ${paperDetails}\n`;
       }
