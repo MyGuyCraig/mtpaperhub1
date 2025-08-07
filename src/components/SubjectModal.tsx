@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 type Paper = 'P1' | 'P2' | 'P3' | 'P4' | 'P5' | 'P6' | 'S1' | 'M1';
 type Binding = 'none' | 'tape' | 'ring';
 type Level = 'o-level' | 'a-level' | 'igcse';
+type Session = 'may-jun' | 'oct-nov';
 
 interface Subject {
   id: string;
@@ -17,7 +18,7 @@ interface Subject {
 
 interface PaperYearRange {
   paper: Paper;
-  session: 'may-jun' | 'oct-nov';
+  sessions: Session[];
   yearRange: {
     start: number;
     end: number;
@@ -59,7 +60,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
     } else {
       const newPaper: PaperYearRange = {
         paper,
-        session: 'may-jun',
+        sessions: ['may-jun'],
         yearRange: { start: 2019, end: 2024 },
       };
       setSelectedPapers([...selectedPapers, newPaper]);
@@ -91,12 +92,23 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
     setSelectedPapers(updatedPapers);
   };
 
-  const handleUpdatePaperSession = (paper: Paper, session: 'may-jun' | 'oct-nov') => {
+  const handleUpdatePaperSession = (paper: Paper, session: Session) => {
     const paperIndex = selectedPapers.findIndex(p => p.paper === paper);
     if (paperIndex === -1) return;
 
     const updatedPapers = [...selectedPapers];
-    updatedPapers[paperIndex].session = session;
+    const currentSessions = updatedPapers[paperIndex].sessions;
+    
+    if (currentSessions.includes(session)) {
+      // Remove session if already selected (but keep at least one)
+      if (currentSessions.length > 1) {
+        updatedPapers[paperIndex].sessions = currentSessions.filter(s => s !== session);
+      }
+    } else {
+      // Add session if not selected
+      updatedPapers[paperIndex].sessions = [...currentSessions, session];
+    }
+
     setSelectedPapers(updatedPapers);
   };
 
@@ -138,11 +150,11 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
           code: subject.code,
           papers: selectedPapers.map(p => ({
             paper: p.paper,
-            session: p.session,
+            sessions: p.sessions.join(', '),
             yearRange: `${p.yearRange.start}-${p.yearRange.end}`,
           })),
         }],
-        binding: `${binding === 'ring' ? 'Ring' : binding === 'tape' ? 'Tape' : 'No'} Binding`,
+        binding: `${binding === 'tape' ? 'Tape' : 'No'} Binding`,
       },
     };
 
@@ -214,7 +226,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
                 >
                   <h3 className="text-lg font-semibold text-gray-800 mb-4">Select Year Ranges</h3>
                   <div className="space-y-4">
-                    {selectedPapers.map(({ paper, session, yearRange }) => (
+                    {selectedPapers.map(({ paper, sessions, yearRange }) => (
                       <div key={paper} className="p-4 bg-gray-50 rounded-lg">
                         <div className="flex items-center justify-between mb-4">
                           <p className="font-medium text-gray-700">
@@ -222,14 +234,14 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
                           </p>
                         </div>
                         
-                        {/* Session Selection */}
+                        {/* Multi-Session Selection */}
                         <div className="mb-4">
-                          <p className="text-sm text-gray-600 mb-2">Session:</p>
+                          <p className="text-sm text-gray-600 mb-2">Sessions (select one or both):</p>
                           <div className="flex gap-2">
                             <button
                               onClick={() => handleUpdatePaperSession(paper, 'may-jun')}
                               className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                                session === 'may-jun'
+                                sessions.includes('may-jun')
                                   ? `bg-${activeColor}-500 text-white`
                                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                               }`}
@@ -239,7 +251,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
                             <button
                               onClick={() => handleUpdatePaperSession(paper, 'oct-nov')}
                               className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                                session === 'oct-nov'
+                                sessions.includes('oct-nov')
                                   ? `bg-${activeColor}-500 text-white`
                                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                               }`}
@@ -310,7 +322,7 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
             {/* Binding Selection */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Binding Option</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button 
                   onClick={() => setBinding('none')} 
                   className={`p-4 rounded-lg border-2 text-left transition-colors
@@ -326,14 +338,6 @@ const SubjectModal: React.FC<SubjectModalProps> = ({
                 >
                   <p className="font-semibold text-gray-800">Tape Binding</p>
                   <p className="text-sm text-gray-500">Simple and cost-effective (+PKR 50)</p>
-                </button>
-                <button 
-                  onClick={() => setBinding('ring')} 
-                  className={`p-4 rounded-lg border-2 text-left transition-colors
-                    ${binding === 'ring' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 hover:border-gray-300'}`}
-                >
-                  <p className="font-semibold text-gray-800">Ring Binding</p>
-                  <p className="text-sm text-gray-500">Durable and lays flat (+PKR 200)</p>
                 </button>
               </div>
             </div>

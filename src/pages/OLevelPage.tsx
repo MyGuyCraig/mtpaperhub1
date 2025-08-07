@@ -217,6 +217,8 @@ const OLevelPage: React.FC = () => {
                   <option value="mathematics">Mathematics</option>
                 </select>
               </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mt-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Sort by</label>
                 <select
