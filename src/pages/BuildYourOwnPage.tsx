@@ -30,7 +30,7 @@ interface Subject {
 
 interface PaperYearRange {
   paper: Paper;
-  sessions: ('may-jun' | 'oct-nov')[];
+  session: 'may-jun' | 'oct-nov';
   yearRange: {
     start: number;
     end: number;
@@ -242,7 +242,7 @@ const BuildYourOwnPage: React.FC = () => {
       const defaultYear = 2024;
       const newPaper: PaperYearRange = {
         paper,
-        sessions: ['may-jun'],
+        session: 'may-jun',
         yearRange: { start: defaultYear - 5, end: defaultYear },
       };
       updatedSubjectPapers = [...currentPapers, newPaper];
@@ -289,17 +289,7 @@ const BuildYourOwnPage: React.FC = () => {
     if (paperIndex === -1) return;
 
     const updatedPapers = [...currentPapers];
-    const currentSessions = updatedPapers[paperIndex].sessions;
-    
-    if (currentSessions.includes(session)) {
-      // Remove session if already selected (but keep at least one)
-      if (currentSessions.length > 1) {
-        updatedPapers[paperIndex].sessions = currentSessions.filter(s => s !== session);
-      }
-    } else {
-      // Add session if not selected
-      updatedPapers[paperIndex].sessions = [...currentSessions, session];
-    }
+    updatedPapers[paperIndex].session = session;
 
     setFormState({
       ...formState,
@@ -550,21 +540,21 @@ const BuildYourOwnPage: React.FC = () => {
                           exit={{ opacity: 0, height: 0 }}
                           className="space-y-4 mt-5"
                         >
-                          {selectedPapers.map(({ paper, sessions, yearRange }) => (
+                          {selectedPapers.map(({ paper, session, yearRange }) => (
                             <div key={paper} className="p-4 bg-white rounded-lg border border-slate-200 flex items-center justify-between flex-wrap gap-4">
                               <div className="w-full">
                                 <p className="font-medium text-slate-700 mb-3">
                                   Configuration for <span className={`font-semibold text-${activeColor}-600`}>{paper}</span>:
                                 </p>
                                 
-                                {/* Multi-Session Selection */}
+                                {/* Session Selection */}
                                 <div className="mb-3">
-                                  <p className="text-sm text-slate-600 mb-2">Sessions (select one or both):</p>
+                                  <p className="text-sm text-slate-600 mb-2">Session:</p>
                                   <div className="flex gap-2">
                                     <button
                                       onClick={() => handleUpdatePaperSession(subjectId, paper, 'may-jun')}
                                       className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                                        sessions.includes('may-jun')
+                                        session === 'may-jun'
                                           ? `bg-${activeColor}-500 text-white`
                                           : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                                       }`}
@@ -574,7 +564,7 @@ const BuildYourOwnPage: React.FC = () => {
                                     <button
                                       onClick={() => handleUpdatePaperSession(subjectId, paper, 'oct-nov')}
                                       className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                                        sessions.includes('oct-nov')
+                                        session === 'oct-nov'
                                           ? `bg-${activeColor}-500 text-white`
                                           : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                                       }`}
@@ -588,20 +578,20 @@ const BuildYourOwnPage: React.FC = () => {
                                 <div className="flex items-center justify-between">
                                   <p className="text-sm text-slate-600">Year Range:</p>
                                   <div className="flex items-center gap-4">
-                                    {/* Start Year */}
-                                    <div className="flex items-center gap-2">
-                                      <span className="text-sm text-slate-500">Start</span>
-                                      <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'start', -1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Minus className="w-4 h-4" /></button>
-                                      <span className="font-mono font-semibold text-slate-800 w-10 text-center">{yearRange.start}</span>
-                                      <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'start', 1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Plus className="w-4 h-4" /></button>
-                                    </div>
-                                    {/* End Year */}
-                                    <div className="flex items-center gap-2">
-                                      <span className="text-sm text-slate-500">End</span>
-                                      <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'end', -1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Minus className="w-4 h-4" /></button>
-                                      <span className="font-mono font-semibold text-slate-800 w-10 text-center">{yearRange.end}</span>
-                                      <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'end', 1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Plus className="w-4 h-4" /></button>
-                                    </div>
+                                {/* Start Year */}
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm text-slate-500">Start</span>
+                                  <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'start', -1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Minus className="w-4 h-4" /></button>
+                                  <span className="font-mono font-semibold text-slate-800 w-10 text-center">{yearRange.start}</span>
+                                  <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'start', 1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Plus className="w-4 h-4" /></button>
+                                </div>
+                                {/* End Year */}
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm text-slate-500">End</span>
+                                  <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'end', -1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Minus className="w-4 h-4" /></button>
+                                  <span className="font-mono font-semibold text-slate-800 w-10 text-center">{yearRange.end}</span>
+                                  <button onClick={() => handleUpdatePaperYear(subjectId, paper, 'end', 1)} className="p-1 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300"><Plus className="w-4 h-4" /></button>
+                                </div>
                                   </div>
                                 </div>
                                 
@@ -631,7 +621,7 @@ const BuildYourOwnPage: React.FC = () => {
               {/* Binding */}
               <div className="mb-8">
                 <h3 className="font-semibold text-slate-700 mb-3">Binding Option</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <button onClick={() => setFormState({...formState, binding: 'none'})} className={`p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'none' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
                     <p className="font-semibold">No Binding</p>
                     <p className="text-slate-500">Simple loose papers (Free)</p>
@@ -639,6 +629,10 @@ const BuildYourOwnPage: React.FC = () => {
                   <button onClick={() => setFormState({...formState, binding: 'tape'})} className={`p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'tape' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
                     <p className="font-semibold">Tape Binding</p>
                     <p className="text-slate-500">Simple and cost-effective (+PKR 50 per paper)</p>
+                  </button>
+                  <button onClick={() => setFormState({...formState, binding: 'ring'})} className={`p-3 rounded-lg border-2 text-sm text-left transition ${formState.binding === 'ring' ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
+                    <p className="font-semibold">Ring Binding</p>
+                    <p className="text-slate-500">Durable and lays flat (+PKR 200 per paper)</p>
                   </button>
                 </div>
               </div>
@@ -667,10 +661,6 @@ const BuildYourOwnPage: React.FC = () => {
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span className="text-slate-500">Level</span>
-                      <span className="font-medium text-slate-700 capitalize">{formState.level.replace('-', ' ')}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-500">Binding</span>
                       <span className="font-medium text-slate-700 capitalize">{formState.binding === 'tape' ? 'Tape Binding' : 'No Binding'}</span>
                     </div>
                   </div>
@@ -687,14 +677,14 @@ const BuildYourOwnPage: React.FC = () => {
                           {papers.length > 0 ? (
                             <ul className="pl-4 text-slate-500 list-disc list-inside">
                               {papers.map(p => (
-                                <li key={p.paper}>{p.paper} ({p.sessions.join(', ')}): <span className="font-mono">{p.yearRange.start}-{p.yearRange.end}</span></li>
+                                <li key={p.paper}>{p.paper} ({p.session}): <span className="font-mono">{p.yearRange.start}-{p.yearRange.end}</span></li>
                               ))}
                             </ul>
                           ) : (
                             <p className="pl-4 text-xs text-slate-400">No papers selected</p>
                           )}
                         </div>
-                      );
+                      )
                     }) : (
                         <div className="text-center py-8">
                             <BookOpen className="mx-auto h-12 w-12 text-slate-300"/>
@@ -711,9 +701,7 @@ const BuildYourOwnPage: React.FC = () => {
                   </div>
                   <button 
                     onClick={handleAddToCart}
-                    className={`w-full flex items-center justify-center gap-2 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-${activeColor}-500/20 hover:shadow-xl hover:shadow-${activeColor}-500/30 bg-${activeColor}-500 hover:bg-${activeColor}-600 disabled:bg-slate-300 disabled:shadow-none`}
-                    disabled={formState.subjects.length === 0}
-                  >
+                    className={`w-full flex items-center justify-center gap-2 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-${activeColor}-500/20 hover:shadow-xl hover:shadow-${activeColor}-500/30 bg-${activeColor}-500 hover:bg-${activeColor}-600 disabled:bg-slate-300 disabled:shadow-none`}>
                     <ShoppingCart className="w-5 h-5"/>
                     Add to Cart
                   </button>

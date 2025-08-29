@@ -211,6 +211,8 @@ const CheckoutPage: React.FC = () => {
       // Add order to store
       addOrder(order);
       
+      console.log('Order created:', order.orderNumber);
+      
       // Clear cart and show success
       clearCart();
       setCompletedOrder(order);

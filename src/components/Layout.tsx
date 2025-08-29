@@ -23,6 +23,8 @@ const Layout: React.FC = () => {
 
   useEffect(() => {
     setIsMenuOpen(false);
+    // Scroll to top when route changes
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   return (

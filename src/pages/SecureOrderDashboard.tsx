@@ -26,9 +26,10 @@ import { useOrderStore } from '../stores/orderStore';
 import { Order } from '../types/order';
 import { formatCustomPackageDetails, formatOrderItemDetails } from '../utils/orderUtils';
 import toast from 'react-hot-toast';
+import AdminOrderSync from '../components/AdminOrderSync';
 
 const SecureOrderDashboard: React.FC = () => {
-  const { orders, updateOrderStatus, updatePaymentStatus, removeOrder, clearAllOrders } = useOrderStore();
+  const { orders, updateOrderStatus, updatePaymentStatus, removeOrder, clearAllOrders, loadOrders, isLoading, error } = useOrderStore();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passcode, setPasscode] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
@@ -46,8 +47,17 @@ const SecureOrderDashboard: React.FC = () => {
     const authStatus = sessionStorage.getItem('admin_authenticated');
     if (authStatus === 'true') {
       setIsAuthenticated(true);
+      // Load orders from Supabase when authenticated
+      loadOrders();
     }
-  }, []);
+  }, [loadOrders]);
+
+  // Load orders when authentication is successful
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadOrders();
+    }
+  }, [isAuthenticated, loadOrders]);
 
   const handlePasscodeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -337,6 +347,8 @@ const SecureOrderDashboard: React.FC = () => {
         </div>
 
         {/* Filters and Actions */}
+        <AdminOrderSync />
+        
         <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div>
